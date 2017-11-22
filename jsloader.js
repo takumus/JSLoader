@@ -31,4 +31,5 @@ var JSLoader = (function() {
       }
       document.head.appendChild(elem);
    }
+   return this;
 })();
