@@ -20,10 +20,12 @@ var JSLoader = (function() {
         log("loading assets...");
         _load(scripts, scripts.length);
     }
+    this.onLoad = function() {}
     function log(log) {
         console.log(log);
         view.innerHTML += log + "<br>";
     }
+    var _this = this;
     function　_load(scripts, len) {
         if(scripts.length < 1) return;
         var elem = document.createElement("script");
@@ -33,7 +35,11 @@ var JSLoader = (function() {
         elem.onerror = elem.onload = function(e) {
             var msg = e.type.toLowerCase() == "error" ? "error" : "loaded";
             log("　(" + (len - scripts.length) + "/" + len + ") " + msg + " " + script);
-            if (scripts.length < 1) log("complete(^o^)/");
+            if (scripts.length < 1) {
+                log("complete(^o^)/");
+                _this.onLoad();
+                return;
+            }
             _load(scripts, len);
         }
         document.head.appendChild(elem);
